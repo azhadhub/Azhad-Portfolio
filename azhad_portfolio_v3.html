@@ -43,18 +43,39 @@
         #header {
             position: fixed; top: 0; left: 0; width: 100%;
             background-color: var(--header-bg); color: var(--header-text);
-            padding: 15px 0; overflow: hidden; white-space: nowrap;
+            padding: 15px 0;
+            overflow: hidden; /* Essential */
+            white-space: nowrap; /* Essential */
             z-index: 1000; border-bottom: 1px solid #ddd;
         }
+
         #scrolling-name-container {
-            display: block; width: fit-content;
+            display: flex; /* Use flex */
+            width: max-content; /* Explicitly size to content */
             animation: scroll-left-infinite 40s linear infinite;
+            will-change: transform; /* Performance hint */
         }
-        .name-segment { display: inline-block; font-size: 1.4em; font-weight: 500; padding: 0 40px; }
+
+        .name-segment {
+            display: block; /* Can be block or inline-block with flex */
+            font-size: 1.4em;
+            font-weight: 500;
+            padding: 0 40px; /* Space around each name */
+            flex-shrink: 0; /* Crucial: prevent segments from shrinking */
+            white-space: nowrap; /* Ensure text within segment doesn't wrap */
+        }
+
         @keyframes scroll-left-infinite {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                /* Move left by exactly half the container's width */
+                transform: translateX(-50%);
+            }
         }
+        /* --- End Header Bar CSS --- */
+
 
         /* --- Hero Section --- */
         #hero-section {
@@ -142,6 +163,9 @@
              @keyframes bounce { 50% { transform: translateY(-10px) rotateY(var(--current-rotation, 0deg)); }}
              #sections { grid-template-columns: repeat(2, 1fr); gap: 20px;}
              #main-content { max-width: 650px; }
+             /* Adjust header padding/font for responsiveness */
+             #header { padding: 12px 0; }
+             .name-segment { font-size: 1.2em; padding: 0 30px; }
         }
         @media (max-width: 768px) {
             #header { padding: 12px 0; }
@@ -161,8 +185,10 @@
         @media (max-width: 480px) {
             .name-segment { font-size: 1em; padding: 0 20px; }
             .car-image { width: 240px; bottom: 25%; }
-            #main-content { max-width: 300px; }
+            #main-content { max-width: 300px; padding-top: 70px; } /* Slightly less padding-top */
             #sections { grid-template-columns: 1fr; max-width: 240px; margin-left: auto; margin-right: auto;}
+            #overview-section h2 { font-size: 1.6em; }
+            #overview-section p { font-size: 0.95em; }
         }
 
     </style>
@@ -170,7 +196,28 @@
 <body>
 
     <!-- Header Bar -->
-    <div id="header"> <div id="scrolling-name-container"> <!-- Segment 1 --> <span class="name-segment">AZHAD AL-HADI</span> <span class="name-segment">AZHAD AL-HADI</span> <span class="name-segment">AZHAD AL-HADI</span> <span class="name-segment">AZHAD AL-HADI</span> <!-- Segment 2 (Duplicate) --> <span class="name-segment">AZHAD AL-HADI</span> <span class="name-segment">AZHAD AL-HADI</span> <span class="name-segment">AZHAD AL-HADI</span> <span class="name-segment">AZHAD AL-HADI</span> </div> </div>
+    <div id="header">
+        <div id="scrolling-name-container">
+             <!-- Segment 1 (8 times) -->
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <!-- Segment 2 (Duplicate - another 8 times, CORRECTED) -->
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span> <!-- Typo fixed here -->
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+             <span class="name-segment">AZHAD AL-HADI</span>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section id="hero-section">
@@ -181,7 +228,10 @@
     <!-- Main Content Area -->
      <main id="main-content">
          <!-- Overview Section -->
-        <section id="overview-section"> <h2>Overview</h2> <p> A proactive and detail-oriented individual currently pursuing studies at Universiti Kuala Lumpur (2023-Present). Possesses hands-on experience in marketing support, data entry, event assistance, and baking. Proven entrepreneurial drive through successfully operating an online tech reselling business. Skilled in Java, data entry, and basic design/marketing. Passionate about technology, fitness, career development, and personal finance. </p> </section>
+        <section id="overview-section">
+             <h2>Overview</h2>
+             <p> A proactive and detail-oriented individual currently pursuing studies at Universiti Kuala Lumpur (2023-Present). Possesses hands-on experience in marketing support, data entry, event assistance, and baking. Proven entrepreneurial drive through successfully operating an online tech reselling business. Skilled in Java, data entry, and basic design/marketing. Passionate about technology, fitness, career development, and personal finance. </p>
+        </section>
         <!-- Sections Grid -->
         <section id="sections">
             <div class="section-box" id="projects-box"> <div class="icon"></div> <h3>Projects</h3> </div>
@@ -191,7 +241,14 @@
             <div class="section-box" id="contact-box"> <div class="icon"></div> <h3>Contact Me</h3> </div>
         </section>
         <!-- Contact Page Section -->
-        <section id="contact-page"> <div class="contact-container"> <h2><contact></h2> <p> Feel free to send an e-mail on <a href="mailto:azhadhzr@gmail.com">azhadhzr@gmail.com</a> </p> <p class="copyright"> © 2024, Azhad Al-Hadi. All rights reserved. </p> <h2></contact></h2> </div> </section>
+        <section id="contact-page">
+            <div class="contact-container">
+                 <h2><contact></h2> <!-- Changed to HTML entities -->
+                 <p> Feel free to send an e-mail on <a href="mailto:azhadhzr@gmail.com">azhadhzr@gmail.com</a> </p>
+                 <p class="copyright"> © 2024, Azhad Al-Hadi. All rights reserved. </p>
+                 <h2></contact></h2> <!-- Changed to HTML entities -->
+            </div>
+        </section>
     </main>
 
     <!-- Placeholder Pages -->
@@ -209,31 +266,68 @@
     <script>
         // --- Sync Bounce Animation with Rotation ---
         const animatedCar = document.getElementById('animatedCar');
-        if (animatedCar) { const rotationDuration = 15; setInterval(() => { const elapsedTime = performance.now() / 1000 % rotationDuration; const currentRotation = (elapsedTime / rotationDuration) * 360; animatedCar.style.setProperty('--current-rotation', `${currentRotation}deg`); }, 50); }
+        if (animatedCar) {
+            const rotationDuration = 15; // seconds
+            setInterval(() => {
+                const elapsedTime = performance.now() / 1000 % rotationDuration;
+                const currentRotation = (elapsedTime / rotationDuration) * 360;
+                animatedCar.style.setProperty('--current-rotation', `${currentRotation}deg`);
+            }, 50); // Update ~20 times per second
+        }
 
         // --- Placeholder Page Logic ---
-        // Updated the key and target page ID for the third box
         const sectionBoxes = {
             'projects-box': document.getElementById('projects-page'),
             'experience-box': document.getElementById('experience-page'),
             'more-on-me-box': document.getElementById('more-on-me-page') // Linked to the updated placeholder
         };
         const closeButtons = document.querySelectorAll('.placeholder-page .close-btn');
-        function showPage(pageElement) { if (pageElement) pageElement.classList.add('visible'); }
-        function hidePage(pageElement) { if (pageElement) pageElement.classList.remove('visible'); }
+
+        function showPage(pageElement) {
+             if (pageElement) {
+                 pageElement.style.display = 'flex'; // Use flex immediately for layout
+                 pageElement.offsetHeight; // Trigger reflow
+                 pageElement.classList.add('visible');
+                 document.body.style.overflow = 'hidden'; // Prevent background scroll
+             }
+        }
+
+        function hidePage(pageElement) {
+             if (pageElement) {
+                 pageElement.classList.remove('visible');
+                 pageElement.addEventListener('transitionend', () => {
+                     if (!pageElement.classList.contains('visible')) {
+                         pageElement.style.display = 'none';
+                     }
+                 }, { once: true });
+                  document.body.style.overflow = ''; // Restore background scroll
+             }
+        }
+
+
         for (const boxId in sectionBoxes) {
             const boxElement = document.getElementById(boxId);
-            if (boxElement) { boxElement.addEventListener('click', () => showPage(sectionBoxes[boxId])); }
+            if (boxElement) {
+                boxElement.addEventListener('click', () => showPage(sectionBoxes[boxId]));
+            }
         }
+
         closeButtons.forEach(button => {
             button.addEventListener('click', () => {
                  const targetPageId = button.getAttribute('data-target');
-                 hidePage(document.getElementById(targetPageId));
+                 const targetPage = document.getElementById(targetPageId);
+                 hidePage(targetPage);
             });
         });
 
         // --- Contact Box Logic ---
-        const contactBox = document.getElementById('contact-box'); const contactPageSection = document.getElementById('contact-page'); if (contactBox && contactPageSection) { contactBox.addEventListener('click', () => contactPageSection.scrollIntoView({ behavior: 'smooth' })); }
+        const contactBox = document.getElementById('contact-box');
+        const contactPageSection = document.getElementById('contact-page');
+        if (contactBox && contactPageSection) {
+            contactBox.addEventListener('click', () => {
+                 contactPageSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
     </script>
 
 </body>
